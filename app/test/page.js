@@ -5,8 +5,24 @@ import { useEffect } from "react";
 
 export default function Shop() {
   const router = useRouter();
+  useEffect(() => {
   const script = document.createElement("script");
-  const config = {
+  const loadScript = () => {
+    let body = document.body;
+    script.innerHTML = "";
+    script.src = "https://cdn.shoprocket.io/loader.js";
+    script.async = true;
+    script.defer = true;
+    body.appendChild(script);
+  };
+  loadScript();
+
+  return () => {
+    script.remove();
+  };
+}, []);
+
+const config = {
     publishable_key: "sr_live_pk_0ac696797e14d49ca01f523ffb8d962e670f",
     options: {
       products_to_display: "all",
@@ -97,21 +113,9 @@ export default function Shop() {
     },
   };
 
-  const loadScript = () => {
-    let body = document.body;
-    script.innerHTML = "";
-    script.src = "https://cdn.shoprocket.io/loader.js";
-    script.async = true;
-    script.defer = true;
-    body.appendChild(script);
-  };
 
   useEffect(() => {
-    loadScript();
 
-    return () => {
-      script.remove();
-    };
   }, []);
 
   return (
